@@ -84,9 +84,9 @@ export default function SignupPage() {
         onClick={onSignup}
         className="p-2 border flex bg-zinc-500 mt-3 border-gray-300 rounded-lg focus:outline-none focus:border-gray-600"
       >
-        {buttonDisabled ? "No Signup" : "SignUp"}
+        {buttonDisabled ? "Can't Signup" : "SignUp"}
       </button>
-      <Link href="/login">visit login page</Link>
+      <Link href="/login">Already have an Account? Login</Link>
     </div>
   );
 }

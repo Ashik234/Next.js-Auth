@@ -19,7 +19,7 @@ export default function LoginPage() {
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
       console.log("Login Success", response.data);
-      toast.success("Login Success")
+      toast.success("Login Success");
       router.push("/profile");
     } catch (error: any) {
       console.log("Login Failed", error.message);
@@ -41,9 +41,9 @@ export default function LoginPage() {
       className="flex flex-col items-center justify-center min-h-screen
     py-2 text-white bg-black "
     >
-      <h1 className="font-bold text-3xl">{loading?"Loading":"Login"}</h1>
+      <h1 className="font-bold text-3xl">{loading ? "Loading" : "Login"}</h1>
 
-      <label className="mt-3" htmlFor="email">
+      <label className="mt-3 " htmlFor="email">
         email
       </label>
       <input
@@ -69,9 +69,9 @@ export default function LoginPage() {
         onClick={onLogin}
         className="p-2 border flex bg-zinc-500 mt-3 border-gray-300 rounded-lg focus:outline-none focus:border-gray-600"
       >
-        {buttonDisabled?"No Login":"Login"}
+        {buttonDisabled ? "Can't Login" : "Login"}
       </button>
-      <Link href="/signup">visit SignUp page</Link>
+      <Link href="/signup"> Don't have an Account? SignUp</Link>
     </div>
   );
 }
