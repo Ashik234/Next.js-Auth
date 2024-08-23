@@ -1,26 +1,52 @@
-"use client"
+"use client";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-import Link from "next/link"
-import React from "react"
-import { useRouter } from "next/router"
-import { Axios } from "axios"
+export default function SignupPage() {
+  const router = useRouter();
+  const [user, setUser] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-export default function SignupPage(){
-    const [user,setUser] = React.useState({
-        username:"",
-        email:"",
-        password:"",
-    })
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const onSignup = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/users/signup", user);
+      console.log("Signup success", response.data);
+      router.push("/login");
+    } catch (error: any) {
+      console.log("Signup failed", error.message);
 
-    const onSignup = async ()=>{
-
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
-    return(
-         <div
+  };
+
+  useEffect(() => {
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.username.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+  return (
+    <div
       className="flex flex-col items-center justify-center min-h-screen
     py-2 text-white bg-black "
     >
-      <h1 className="font-bold text-3xl">SignupPage</h1>
+      <h1 className="font-bold text-3xl">{loading ? "Loading" : "SignUp"}</h1>
       <label className="mt-3" htmlFor="username">
         username
       </label>
@@ -55,11 +81,12 @@ export default function SignupPage(){
         placeholder="password"
       />
       <button
-      onClick={onSignup}
-      className="p-2 border flex bg-zinc-500 mt-3 border-gray-300 rounded-lg focus:outline-none focus:border-gray-600">
-        SignUp
+        onClick={onSignup}
+        className="p-2 border flex bg-zinc-500 mt-3 border-gray-300 rounded-lg focus:outline-none focus:border-gray-600"
+      >
+        {buttonDisabled ? "No Signup" : "SignUp"}
       </button>
       <Link href="/login">visit login page</Link>
     </div>
-    )
+  );
 }
